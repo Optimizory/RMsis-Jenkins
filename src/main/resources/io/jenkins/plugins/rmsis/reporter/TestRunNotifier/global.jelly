@@ -1,0 +1,38 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:section title="Jira RMsis Server Configuration">
+
+        <f:entry title="Jira RMsis Server(s)">
+            <f:repeatable var="instancesList" name="instances" items="${instance.instances}" noAddButton="false"
+                          minimum="0">
+                <table>
+                    <f:entry title="Jira RMsis URL" description="Jira RMsis Server IP address or hostname"
+                             field="server">
+                        <f:textbox value="${instancesList.server}" default=""/>
+                    </f:entry>
+                    <f:entry title="User Name" description="Jira RMsis User Name"
+                             field="username">
+                        <f:textbox value="${instancesList.username}" default=""/>
+                    </f:entry>
+
+                    <f:entry title="Password" description="Jira RMsis User Password"
+                             field="password">
+                        <f:password value="${instancesList.password}"/>
+                    </f:entry>
+                    <f:validateButton title="Test Configuration&#160;"
+                                      progress="Please wait .. We are validating the connection and credentials"
+                                      method="testConnection" with="server,username,password"/>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <div style="float:right;">
+                                <input type="button" value="Delete Jira RMsis" class="repeatable-delete" style="margin-left: 1em;"/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </f:repeatable>
+        </f:entry>
+    </f:section>
+</j:jelly>
