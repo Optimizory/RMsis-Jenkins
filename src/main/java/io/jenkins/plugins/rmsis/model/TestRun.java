@@ -8,10 +8,6 @@ public class TestRun
   private Long id;
   private String name;
 
-  public TestRun()
-  {
-  }
-
   public TestRun(Long id, String name)
   {
     this.id = id;

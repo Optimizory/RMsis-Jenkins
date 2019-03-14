@@ -113,6 +113,7 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
     }
   }
 
+  @SuppressWarnings("unused")
   public FormValidation doTestConnection(@QueryParameter String server,
                                          @QueryParameter String username,
                                          @QueryParameter String password)
@@ -137,9 +138,7 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
     RestClient client = null;
     boolean valid;
     try {
-      System.out.println(server + username + password);
       client = new RestClient(server, username, password);
-      System.out.println("client" + client);
       valid = client.isLogged();
     } finally {
       if (client != null) client.destroy();
@@ -152,6 +151,7 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
     return FormValidation.ok("Connection to Jira RMsis has been validated");
   }
 
+  @SuppressWarnings("unused")
   public ListBoxModel doFillServerItems()
   {
     ListBoxModel model = new ListBoxModel();
@@ -168,9 +168,9 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
     return model;
   }
 
+  @SuppressWarnings("unused")
   public ListBoxModel doFillProjectItems(@QueryParameter String server)
   {
-    System.out.println("Server Name: " + server);
     ListBoxModel model = new ListBoxModel();
     if (StringUtils.isBlank(server)
         || server.trim().equals(Constants.ADD_GLOBAL_SERVER_CONFIG)
@@ -200,6 +200,7 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
     return model;
   }
 
+  @SuppressWarnings("unused")
   public ListBoxModel doFillTestRunItems(@QueryParameter String project,
                                          @QueryParameter String server)
   {
@@ -236,6 +237,7 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
     return model;
   }
 
+  @SuppressWarnings("unused")
   public ListBoxModel doFillMethodCustomFieldItems(@QueryParameter String project,
                                                    @QueryParameter String server)
   {

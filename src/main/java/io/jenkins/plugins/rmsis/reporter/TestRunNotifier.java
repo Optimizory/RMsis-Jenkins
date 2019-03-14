@@ -15,7 +15,6 @@ import io.jenkins.plugins.rmsis.utils.Util;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -64,28 +63,32 @@ public class TestRunNotifier extends Notifier
     this.project = project;
   }
 
+  @SuppressWarnings("unused")
   public String getTestRun()
   {
     return testRun;
   }
 
+  @SuppressWarnings("unused")
   public void setTestRun(String testRun)
   {
     this.testRun = testRun;
   }
 
+  @SuppressWarnings("unused")
   public String getMethodCustomField()
   {
     return methodCustomField;
   }
 
+  @SuppressWarnings("unused")
   public void setMethodCustomField(String methodCustomField)
   {
     this.methodCustomField = methodCustomField;
   }
 
   @Override
-  public boolean perform(final AbstractBuild build, final Launcher launcher, final BuildListener listener) throws InterruptedException, IOException
+  public boolean perform(final AbstractBuild build, final Launcher launcher, final BuildListener listener)
   {
     if (!validateConfig()) {
       LOG.log(Level.WARNING, "Invalid build configuration, please verify!");
@@ -116,7 +119,7 @@ public class TestRunNotifier extends Notifier
   private boolean prepareTests(final AbstractBuild build, InstanceConfig config)
   {
     TestResultAction testResultAction = build.getAction(TestResultAction.class);
-    Collection<SuiteResult> suites = null;
+    Collection<SuiteResult> suites;
     try {
       suites = testResultAction.getResult().getSuites();
     } catch (Exception e) {

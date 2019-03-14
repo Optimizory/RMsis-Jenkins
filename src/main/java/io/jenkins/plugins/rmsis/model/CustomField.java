@@ -8,10 +8,6 @@ public class CustomField
   private Long id;
   private String name;
 
-  public CustomField()
-  {
-  }
-
   public CustomField(Long id, String name)
   {
     this.id = id;

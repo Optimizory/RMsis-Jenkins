@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * ${Copyright}
@@ -78,13 +79,13 @@ public class RestClient
       BasicProject jp = null;
 
       for (BasicProject p : jiraProjects) {
-        if (p.getId().equals(external)) {
+        if (Objects.equals(p.getId(), external)) {
           jp = p;
           break;
         }
       }
 
-      projects.add(new Project(id, jp.getKey(), jp.getName()));
+      if (jp != null) projects.add(new Project(id, jp.getKey(), jp.getName()));
     }
 
     return projects;
@@ -116,7 +117,7 @@ public class RestClient
     return customFieldList;
   }
 
-  public List<TestCase> getTestCases(Long project, Long testRun, Long customField)
+  List<TestCase> getTestCases(Long project, Long testRun, Long customField)
   {
     GraphTestCases testCases = client.getGraphRestClient().getTestCases(project, testRun, customField).claim();
     List<TestCase> testCaseList = new ArrayList<>();
@@ -128,7 +129,7 @@ public class RestClient
     return testCaseList;
   }
 
-  public List<TestCaseStatus> getTestCaseStatuses()
+  List<TestCaseStatus> getTestCaseStatuses()
   {
     GraphTestCaseStatuses testCaseStatuses = client.getGraphRestClient().getTestCaseStatuses().claim();
     List<TestCaseStatus> testCaseStatusList = new ArrayList<>();
@@ -140,7 +141,7 @@ public class RestClient
     return testCaseStatusList;
   }
 
-  public void setTestCaseStatus(Long testRun, Long testCase, Long status)
+  void setTestCaseStatus(Long testRun, Long testCase, Long status)
   {
     client.getGraphRestClient().setTestCaseStatus(testRun, testCase, status);
   }

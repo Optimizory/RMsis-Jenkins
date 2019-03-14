@@ -9,10 +9,6 @@ public class Project
   private String key;
   private String name;
 
-  public Project()
-  {
-  }
-
   public Project(Long id, String key, String name)
   {
     this.id = id;

@@ -7,7 +7,7 @@ import java.util.Collection;
  */
 public class GraphCustomFields
 {
-  Collection<GraphCustomField> customFields;
+  private Collection<GraphCustomField> customFields;
 
   public GraphCustomFields(Collection<GraphCustomField> customFields)
   {

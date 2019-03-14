@@ -9,10 +9,6 @@ public class GraphTestCase
   private String name;
   private String customValue;
 
-  public GraphTestCase()
-  {
-  }
-
   public GraphTestCase(Long id, String name, String customValue)
   {
     this.id = id;

@@ -7,7 +7,7 @@ public class Util
 {
   public static Long getLong(String string)
   {
-    long parseLong;
+    Long parseLong;
     try {
       parseLong = Long.parseLong(string);
     } catch (NumberFormatException e) {

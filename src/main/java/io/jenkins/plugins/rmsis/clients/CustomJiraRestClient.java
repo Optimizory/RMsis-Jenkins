@@ -15,11 +15,11 @@ public class CustomJiraRestClient extends AsynchronousJiraRestClient implements 
 {
   private final GraphRestClient graphRestClient;
 
-  public CustomJiraRestClient(URI serverUri, DisposableHttpClient httpClient)
+  CustomJiraRestClient(URI serverUri, DisposableHttpClient httpClient)
   {
     super(serverUri, httpClient);
 
-    URI graphURI = UriBuilder.fromUri(serverUri).path("/rest/service/latest/rmsis/graphql").build(new Object[0]);
+    URI graphURI = UriBuilder.fromUri(serverUri).path("/rest/service/latest/rmsis/graphql").build();
 
     graphRestClient = new GraphRestClient(graphURI, httpClient);
   }

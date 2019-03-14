@@ -13,7 +13,7 @@ public class GraphTestCaseParser implements JsonObjectParser<GraphTestCase>
 {
   private Long customField;
 
-  public GraphTestCaseParser(Long customField)
+  GraphTestCaseParser(Long customField)
   {
     this.customField = customField;
   }

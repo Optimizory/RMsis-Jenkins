@@ -22,6 +22,7 @@ public class GraphRestClient extends AbstractAsynchronousRestClient
     this.graphURI = graphURI;
   }
 
+  @SuppressWarnings("UnstableApiUsage")
   public Promise<GraphProjects> getProjects()
   {
     UriBuilder uriBuilder = UriBuilder.fromUri(this.graphURI);
@@ -31,6 +32,7 @@ public class GraphRestClient extends AbstractAsynchronousRestClient
         new GraphProjectsParser());
   }
 
+  @SuppressWarnings("UnstableApiUsage")
   public Promise<GraphTestRuns> getTestRuns(Long project)
   {
     UriBuilder uriBuilder = UriBuilder.fromUri(this.graphURI);
@@ -40,6 +42,7 @@ public class GraphRestClient extends AbstractAsynchronousRestClient
         new GraphTestRunsParser());
   }
 
+  @SuppressWarnings("UnstableApiUsage")
   public Promise<GraphCustomFields> getCustomFields(Long project)
   {
     UriBuilder uriBuilder = UriBuilder.fromUri(this.graphURI);
@@ -49,6 +52,7 @@ public class GraphRestClient extends AbstractAsynchronousRestClient
         new GraphCustomFieldsParser());
   }
 
+  @SuppressWarnings("UnstableApiUsage")
   public Promise<GraphTestCases> getTestCases(Long project, Long testRun, Long customField)
   {
     UriBuilder uriBuilder = UriBuilder.fromUri(this.graphURI);
@@ -59,6 +63,7 @@ public class GraphRestClient extends AbstractAsynchronousRestClient
         new GraphTestCasesParser(customField));
   }
 
+  @SuppressWarnings("UnstableApiUsage")
   public Promise<GraphTestCaseStatuses> getTestCaseStatuses()
   {
     UriBuilder uriBuilder = UriBuilder.fromUri(this.graphURI);
