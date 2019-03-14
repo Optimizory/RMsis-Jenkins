@@ -36,14 +36,11 @@
             <url>https://opensource.org/licenses/MIT</url>
         </license>
     </licenses>
-    <!-- Assuming you want to host on @jenkinsci:
-    <server>https://wiki.jenkins.io/display/JENKINS/TODO+Plugin</server>
+    <url>https://docs.optimizory.com/x/xQfX</url>
     <scm>
-        <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-        <server>https://github.com/jenkinsci/${project.artifactId}-plugin</server>
+        <connection>scm:git:git://github.com/Optimizory/RMsis-Jenkins.git</connection>
+        <url>https://github.com/Optimizory/RMsis-Jenkins</url>
     </scm>
-    -->
     <dependencies>
         <dependency>
             <groupId>com.sun.jersey</groupId>
