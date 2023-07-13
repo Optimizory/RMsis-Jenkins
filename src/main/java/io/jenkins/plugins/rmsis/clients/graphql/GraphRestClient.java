@@ -28,7 +28,7 @@ public class GraphRestClient extends AbstractAsynchronousRestClient
     UriBuilder uriBuilder = UriBuilder.fromUri(this.graphURI);
     String query = "{getProjects{id externalId}}";
 
-    return this.postAndParse(uriBuilder.build(), new GraphInput(query), new GraphInputJsonGenerator(),
+    return (Promise<GraphProjects>) this.postAndParse(uriBuilder.build(), new GraphInput(query), new GraphInputJsonGenerator(),
         new GraphProjectsParser());
   }
 
@@ -38,7 +38,7 @@ public class GraphRestClient extends AbstractAsynchronousRestClient
     UriBuilder uriBuilder = UriBuilder.fromUri(this.graphURI);
     String query = "{getTestRuns(projectId:" + project + "){id name}}";
 
-    return this.postAndParse(uriBuilder.build(), new GraphInput(query), new GraphInputJsonGenerator(),
+    return (Promise<GraphTestRuns>)this.postAndParse(uriBuilder.build(), new GraphInput(query), new GraphInputJsonGenerator(),
         new GraphTestRunsParser());
   }
 
@@ -48,7 +48,7 @@ public class GraphRestClient extends AbstractAsynchronousRestClient
     UriBuilder uriBuilder = UriBuilder.fromUri(this.graphURI);
     String query = "{getTestCaseCustomFields(projectId:" + project + "){id name type}}";
 
-    return this.postAndParse(uriBuilder.build(), new GraphInput(query), new GraphInputJsonGenerator(),
+    return (Promise<GraphCustomFields>)this.postAndParse(uriBuilder.build(), new GraphInput(query), new GraphInputJsonGenerator(),
         new GraphCustomFieldsParser());
   }
 
@@ -59,7 +59,7 @@ public class GraphRestClient extends AbstractAsynchronousRestClient
     String query = "{getTestCasesByTestRun(projectId:" + project + ", testRunId:" + testRun + "){id name customFields{id type value}}}";
 
 
-    return this.postAndParse(uriBuilder.build(), new GraphInput(query), new GraphInputJsonGenerator(),
+    return (Promise<GraphTestCases>) this.postAndParse(uriBuilder.build(), new GraphInput(query), new GraphInputJsonGenerator(),
         new GraphTestCasesParser(customField));
   }
 
@@ -70,7 +70,7 @@ public class GraphRestClient extends AbstractAsynchronousRestClient
     String query = "{getTestCaseStatuses{id name}}";
 
 
-    return this.postAndParse(uriBuilder.build(), new GraphInput(query), new GraphInputJsonGenerator(),
+    return (Promise<GraphTestCaseStatuses>) this.postAndParse(uriBuilder.build(), new GraphInput(query), new GraphInputJsonGenerator(),
         new GraphTestCaseStatusesParser());
   }
 

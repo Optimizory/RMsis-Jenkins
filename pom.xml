@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <build>
         <plugins>
@@ -18,7 +18,7 @@
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
         <version>3.4</version>
-        <relativePath/>
+        <relativePath />
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>rmsis-jenkins</artifactId>
@@ -36,7 +36,7 @@
             <url>https://opensource.org/licenses/MIT</url>
         </license>
     </licenses>
-    <url>https://docs.optimizory.com/x/xQfX</url>
+    <url>https://optimizory.atlassian.net/l/cp/HJPDFW2W</url>
     <scm>
         <connection>scm:git:git://github.com/Optimizory/RMsis-Jenkins.git</connection>
         <url>https://github.com/Optimizory/RMsis-Jenkins</url>
@@ -45,12 +45,12 @@
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
-            <version>1.9</version>
+            <version>1.19.4</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>1.9</version>
+            <version>1.19.4</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
@@ -65,40 +65,45 @@
         <dependency>
             <groupId>com.atlassian.jira</groupId>
             <artifactId>jira-rest-java-client-api</artifactId>
-            <version>3.0.0</version>
+            <version>5.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.atlassian.jira</groupId>
             <artifactId>jira-rest-java-client-core</artifactId>
-            <version>3.0.0</version>
+            <version>5.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.atlassian.fugue</groupId>
+            <artifactId>fugue</artifactId>
+            <version>4.7.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>29.0-jre</version>
+            <version>32.1.1-jre</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jettison</groupId>
             <artifactId>jettison</artifactId>
-            <version>1.1</version>
+            <version>1.5.4</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>2.5.6.SEC03</version>
+            <version>5.3.28</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>2.5.6.SEC03</version>
+            <version>5.3.28</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
-            <version>4.4.11</version>
+            <version>4.4.16</version>
         </dependency>
 
         <dependency>
@@ -107,7 +112,11 @@
             <version>1.5</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.36</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
