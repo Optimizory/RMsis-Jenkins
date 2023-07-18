@@ -143,7 +143,7 @@ public class TestRunNotifier extends Notifier
     for (SuiteResult suite : suites) {
       for (CaseResult caseResult : suite.getCases()) {
         LOG.log(Level.INFO, "Test: " + caseResult.getName() + " - " + caseResult.isPassed());
-        resultMap.put(caseResult.getFullName(), caseResult.isPassed());
+        resultMap.put(caseResult.getName(), caseResult.isPassed());
       }
     }
 
