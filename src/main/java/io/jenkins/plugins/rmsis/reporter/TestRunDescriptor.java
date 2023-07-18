@@ -192,7 +192,6 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
     } finally {
       if (client != null) client.destroy();
     }
-
     for (Project project : projects) {
       model.add(project.getName(), project.getId() + "");
     }

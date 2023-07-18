@@ -70,7 +70,6 @@ public class RestClient
   {
     GraphProjects graphProjects = client.getGraphRestClient().getProjects().claim();
     Iterable<BasicProject> jiraProjects = client.getProjectClient().getAllProjects().claim();
-
     List<Project> projects = new ArrayList<>();
 
     for (GraphProject project : graphProjects.getProjects()) {

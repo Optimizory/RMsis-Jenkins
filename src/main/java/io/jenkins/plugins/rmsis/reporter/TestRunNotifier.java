@@ -140,9 +140,9 @@ public class TestRunNotifier extends Notifier
   private Map<String, Boolean> prepareResults(Collection<SuiteResult> suites)
   {
     Map<String, Boolean> resultMap = new HashMap<>();
-
     for (SuiteResult suite : suites) {
       for (CaseResult caseResult : suite.getCases()) {
+        LOG.log(Level.INFO, "Test: " + caseResult.getName() + " - " + caseResult.isPassed());
         resultMap.put(caseResult.getFullName(), caseResult.isPassed());
       }
     }
