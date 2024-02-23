@@ -5,26 +5,28 @@ import io.jenkins.plugins.rmsis.clients.CustomJiraRestClient;
 import io.jenkins.plugins.rmsis.clients.CustomJiraRestClientFactory;
 import io.jenkins.plugins.rmsis.clients.graphql.model.*;
 import io.jenkins.plugins.rmsis.model.*;
+import io.jenkins.plugins.rmsis.reporter.TestRunDescriptor;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * ${Copyright}
  */
-public class RestClient
-{
+public class RestClient {
   private String server;
   private String username;
   private String password;
   private CustomJiraRestClient client;
 
+  private final static Logger LOG = Logger.getLogger(RestClient.class.getName());
 
-  public RestClient(String server, String username, String password)
-  {
+  public RestClient(String server, String username, String password) {
     this.server = server;
     this.username = username;
     this.password = password;
@@ -32,32 +34,28 @@ public class RestClient
     initialize();
   }
 
-  public RestClient(Instance instance)
-  {
+  public RestClient(Instance instance) {
     this(instance.getServer(), instance.getUsername(), instance.getPassword());
   }
 
-  private void initialize()
-  {
+  private void initialize() {
     CustomJiraRestClientFactory factory = new CustomJiraRestClientFactory();
 
     this.client = (CustomJiraRestClient) factory
         .createWithBasicHttpAuthentication(URI.create(server), username, password);
   }
 
-  public void destroy()
-  {
+  public void destroy() {
     if (null != this.client) {
       try {
         this.client.close();
       } catch (IOException e) {
-        //ignore
+        // ignore
       }
     }
   }
 
-  public boolean isLogged()
-  {
+  public boolean isLogged() {
     try {
       this.client.getSessionClient().getCurrentSession().claim().getUsername();
       return true;
@@ -66,8 +64,7 @@ public class RestClient
     }
   }
 
-  public List<Project> getProjects()
-  {
+  public List<Project> getProjects() {
     GraphProjects graphProjects = client.getGraphRestClient().getProjects().claim();
     Iterable<BasicProject> jiraProjects = client.getProjectClient().getAllProjects().claim();
     List<Project> projects = new ArrayList<>();
@@ -84,14 +81,14 @@ public class RestClient
         }
       }
 
-      if (jp != null) projects.add(new Project(id, jp.getKey(), jp.getName()));
+      if (jp != null)
+        projects.add(new Project(id, jp.getKey(), jp.getName()));
     }
 
     return projects;
   }
 
-  public List<TestRun> getTestRuns(Long project)
-  {
+  public List<TestRun> getTestRuns(Long project) {
     GraphTestRuns testRuns = client.getGraphRestClient().getTestRuns(project).claim();
     List<TestRun> testRunList = new ArrayList<>();
 
@@ -102,8 +99,7 @@ public class RestClient
     return testRunList;
   }
 
-  public List<CustomField> getTestCaseCustomFields(Long project)
-  {
+  public List<CustomField> getTestCaseCustomFields(Long project) {
     GraphCustomFields customFields = client.getGraphRestClient().getCustomFields(project).claim();
     List<CustomField> customFieldList = new ArrayList<>();
 
@@ -116,8 +112,7 @@ public class RestClient
     return customFieldList;
   }
 
-  List<TestCase> getTestCases(Long project, Long testRun, Long customField)
-  {
+  List<TestCase> getTestCases(Long project, Long testRun, Long customField) {
     GraphTestCases testCases = client.getGraphRestClient().getTestCases(project, testRun, customField).claim();
     List<TestCase> testCaseList = new ArrayList<>();
 
@@ -128,8 +123,7 @@ public class RestClient
     return testCaseList;
   }
 
-  List<TestCaseStatus> getTestCaseStatuses()
-  {
+  List<TestCaseStatus> getTestCaseStatuses() {
     GraphTestCaseStatuses testCaseStatuses = client.getGraphRestClient().getTestCaseStatuses().claim();
     List<TestCaseStatus> testCaseStatusList = new ArrayList<>();
 
@@ -140,8 +134,7 @@ public class RestClient
     return testCaseStatusList;
   }
 
-  void setTestCaseStatus(Long testRun, Long testCase, Long status)
-  {
+  void setTestCaseStatus(Long testRun, Long testCase, Long status) {
     client.getGraphRestClient().setTestCaseStatus(testRun, testCase, status);
   }
 }

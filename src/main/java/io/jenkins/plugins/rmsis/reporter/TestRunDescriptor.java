@@ -24,100 +24,93 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * ${Copyright}
  */
 
 @Extension
-public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
-{
+public class TestRunDescriptor extends BuildStepDescriptor<Publisher> {
+
+  private final static Logger LOG = Logger.getLogger(TestRunDescriptor.class.getName());
   private List<Instance> instances;
 
-  public TestRunDescriptor()
-  {
+  public TestRunDescriptor() {
     super(TestRunNotifier.class);
     load();
   }
 
-  public List<Instance> getInstances()
-  {
+  public List<Instance> getInstances() {
     return instances;
   }
 
-  public void setInstances(List<Instance> instances)
-  {
+  public void setInstances(List<Instance> instances) {
     this.instances = instances;
   }
 
   @Override
-  public Publisher newInstance(@CheckForNull StaplerRequest req, @Nonnull JSONObject formData) throws FormException
-  {
+  public Publisher newInstance(@CheckForNull StaplerRequest req, @Nonnull JSONObject formData) throws FormException {
     return super.newInstance(req, formData);
   }
 
   @Nonnull
   @Override
-  public String getDisplayName()
-  {
+  public String getDisplayName() {
     return Constants.DISPLAY_NAME;
   }
 
   @Override
-  public boolean isApplicable(Class<? extends AbstractProject> aClass)
-  {
+  public boolean isApplicable(Class<? extends AbstractProject> aClass) {
     return true;
   }
 
   @Override
-  public boolean configure(StaplerRequest req, JSONObject formData) throws FormException
-  {
+  public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
     req.bindParameters(this);
-    this.instances = new ArrayList<>();
 
-    Object object = formData.get("instances");
+    try {
+      List<Instance> instances = req.bindJSONToList(Instance.class, formData.get("instances"));
+      this.instances = new ArrayList<>();
+      for (int i = 0; i < instances.size(); i++) {
+        Instance ins = instances.get(i);
+        String server = URLValidator.validate(ins.getServer().trim());
+        String username = ins.getUsername().trim();
+        String password = ins.getPassword().trim();
 
-    if (object instanceof JSONArray) {
-      JSONArray array = (JSONArray) object;
-
-      array.forEach(this::accept);
-
-    } else if (object instanceof JSONObject) {
-      JSONObject jsonObject = formData.getJSONObject("instances");
-      accept(jsonObject);
+        Instance instance = new Instance(server, username, password);
+        this.acceptInstance(instance);
+      }
+      save();
+    } catch (Exception e) {
+      throw new FormException(e.getMessage(), e, "instances");
     }
-
-    save();
     return super.configure(req, formData);
   }
 
-  private void accept(Object o)
-  {
-    JSONObject jsonObject = (JSONObject) o;
-    String server = URLValidator.validate(jsonObject.getString(Constants.GLOBAL_SERVER_URL).trim());
-    String username = jsonObject.getString(Constants.GLOBAL_USERNAME).trim();
-    String password = jsonObject.getString(Constants.GLOBAL_PASSWORD).trim();
-
-    Instance instance = new Instance(server, username, password);
+  private void acceptInstance(Instance instance) throws Exception {
     RestClient client = null;
     boolean valid;
     try {
       client = new RestClient(instance);
       valid = client.isLogged();
     } finally {
-      if (client != null) client.destroy();
+      if (client != null)
+        client.destroy();
     }
 
     if (valid) {
       instances.add(instance);
+    } else {
+      throw new Exception("Invalid configuration found for Jira Instance \"" + instance.getServer() + "\"");
     }
   }
 
   @SuppressWarnings("unused")
   public FormValidation doTestConnection(@QueryParameter String server,
-                                         @QueryParameter String username,
-                                         @QueryParameter String password)
-  {
+      @QueryParameter String username,
+      @QueryParameter String password) {
     if (StringUtils.isBlank(server)) {
       return FormValidation.error("Please enter the server");
     }
@@ -141,7 +134,8 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
       client = new RestClient(server, username, password);
       valid = client.isLogged();
     } finally {
-      if (client != null) client.destroy();
+      if (client != null)
+        client.destroy();
     }
 
     if (!valid) {
@@ -152,8 +146,7 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
   }
 
   @SuppressWarnings("unused")
-  public ListBoxModel doFillServerItems()
-  {
+  public ListBoxModel doFillServerItems() {
     ListBoxModel model = new ListBoxModel();
     model.add(Constants.ADD_GLOBAL_SERVER_CONFIG);
     if (!this.instances.isEmpty()) {
@@ -169,8 +162,7 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
   }
 
   @SuppressWarnings("unused")
-  public ListBoxModel doFillProjectItems(@QueryParameter String server)
-  {
+  public ListBoxModel doFillProjectItems(@QueryParameter String server) {
     ListBoxModel model = new ListBoxModel();
     if (StringUtils.isBlank(server)
         || server.trim().equals(Constants.ADD_GLOBAL_SERVER_CONFIG)
@@ -190,7 +182,8 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
       client = getByServer(server);
       projects = client.getProjects();
     } finally {
-      if (client != null) client.destroy();
+      if (client != null)
+        client.destroy();
     }
     for (Project project : projects) {
       model.add(project.getName(), project.getId() + "");
@@ -201,8 +194,7 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
 
   @SuppressWarnings("unused")
   public ListBoxModel doFillTestRunItems(@QueryParameter String project,
-                                         @QueryParameter String server)
-  {
+      @QueryParameter String server) {
     ListBoxModel model = new ListBoxModel();
 
     if (server.trim().equals(Constants.EMPTY)) {
@@ -218,7 +210,8 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
     }
 
     Long projectId = Util.getLong(project);
-    if (null == projectId) return model;
+    if (null == projectId)
+      return model;
 
     RestClient client = null;
     List<TestRun> testRuns;
@@ -226,7 +219,8 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
       client = getByServer(server);
       testRuns = client.getTestRuns(projectId);
     } finally {
-      if (client != null) client.destroy();
+      if (client != null)
+        client.destroy();
     }
 
     for (TestRun testRun : testRuns) {
@@ -238,8 +232,7 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
 
   @SuppressWarnings("unused")
   public ListBoxModel doFillMethodCustomFieldItems(@QueryParameter String project,
-                                                   @QueryParameter String server)
-  {
+      @QueryParameter String server) {
     ListBoxModel model = new ListBoxModel();
     if (StringUtils.isBlank(project)
         || project.trim().equals(Constants.ADD_GLOBAL_SERVER_CONFIG)
@@ -249,7 +242,8 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
     }
 
     Long projectId = Util.getLong(project);
-    if (null == projectId) return model;
+    if (null == projectId)
+      return model;
 
     RestClient client = null;
     List<CustomField> customFields;
@@ -257,7 +251,8 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
       client = getByServer(server);
       customFields = client.getTestCaseCustomFields(projectId);
     } finally {
-      if (client != null) client.destroy();
+      if (client != null)
+        client.destroy();
     }
 
     for (CustomField customField : customFields) {
@@ -267,8 +262,7 @@ public class TestRunDescriptor extends BuildStepDescriptor<Publisher>
     return model;
   }
 
-  private RestClient getByServer(String server)
-  {
+  private RestClient getByServer(String server) {
     for (Instance instance : instances) {
       if (instance.getServer().equals(server)) {
         return new RestClient(instance);
