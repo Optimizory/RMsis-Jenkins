@@ -1,6 +1,5 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-    <form>
     <f:entry title="Select Jira RMsis Instance" field="server">
         <f:select />
     </f:entry>
@@ -16,5 +15,4 @@
     <f:entry title="Method Name Custom field" field="methodCustomField">
         <f:select/>
     </f:entry>
-    </form>
 </j:jelly>

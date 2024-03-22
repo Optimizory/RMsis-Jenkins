@@ -25,8 +25,7 @@ import java.util.logging.Logger;
 /**
  * ${Copyright}
  */
-public class TestRunNotifier extends Notifier
-{
+public class TestRunNotifier extends Notifier {
   private final static Logger LOG = Logger.getLogger(TestRunNotifier.class.getName());
 
   private String server;
@@ -35,61 +34,33 @@ public class TestRunNotifier extends Notifier
   private String methodCustomField;
 
   @DataBoundConstructor
-  public TestRunNotifier(String server, String project, String testRun, String methodCustomField)
-  {
+  public TestRunNotifier(String server, String project, String testRun, String methodCustomField) {
     this.server = server;
     this.project = project;
     this.testRun = testRun;
     this.methodCustomField = methodCustomField;
   }
 
-  public String getServer()
-  {
+  public String getServer() {
     return server;
   }
 
-  public void setServer(String server)
-  {
-    this.server = server;
-  }
-
-  public String getProject()
-  {
+  public String getProject() {
     return project;
   }
 
-  public void setProject(String project)
-  {
-    this.project = project;
-  }
-
   @SuppressWarnings("unused")
-  public String getTestRun()
-  {
+  public String getTestRun() {
     return testRun;
   }
 
   @SuppressWarnings("unused")
-  public void setTestRun(String testRun)
-  {
-    this.testRun = testRun;
-  }
-
-  @SuppressWarnings("unused")
-  public String getMethodCustomField()
-  {
+  public String getMethodCustomField() {
     return methodCustomField;
   }
 
-  @SuppressWarnings("unused")
-  public void setMethodCustomField(String methodCustomField)
-  {
-    this.methodCustomField = methodCustomField;
-  }
-
   @Override
-  public boolean perform(final AbstractBuild build, final Launcher launcher, final BuildListener listener)
-  {
+  public boolean perform(final AbstractBuild build, final Launcher launcher, final BuildListener listener) {
     if (!validateConfig()) {
       LOG.log(Level.WARNING, "Invalid build configuration, please verify!");
       return false;
@@ -116,8 +87,7 @@ public class TestRunNotifier extends Notifier
     return true;
   }
 
-  private boolean prepareTests(final AbstractBuild build, InstanceConfig config)
-  {
+  private boolean prepareTests(final AbstractBuild build, InstanceConfig config) {
     TestResultAction testResultAction = build.getAction(TestResultAction.class);
     Collection<SuiteResult> suites;
     try {
@@ -137,8 +107,7 @@ public class TestRunNotifier extends Notifier
     return true;
   }
 
-  private Map<String, Boolean> prepareResults(Collection<SuiteResult> suites)
-  {
+  private Map<String, Boolean> prepareResults(Collection<SuiteResult> suites) {
     Map<String, Boolean> resultMap = new HashMap<>();
     for (SuiteResult suite : suites) {
       for (CaseResult caseResult : suite.getCases()) {
@@ -150,8 +119,7 @@ public class TestRunNotifier extends Notifier
     return resultMap;
   }
 
-  private InstanceConfig initInstanceConfig()
-  {
+  private InstanceConfig initInstanceConfig() {
     InstanceConfig config = new InstanceConfig();
     List<Instance> instanceList = getDescriptor().getInstances();
     config.setProject(Util.getLong(project));
@@ -167,8 +135,7 @@ public class TestRunNotifier extends Notifier
     return config;
   }
 
-  private boolean validateConfig()
-  {
+  private boolean validateConfig() {
     boolean isValid = true;
     if (StringUtils.isBlank(server)
         || StringUtils.isBlank(project)
@@ -182,20 +149,17 @@ public class TestRunNotifier extends Notifier
   }
 
   @Override
-  public BuildStepMonitor getRequiredMonitorService()
-  {
+  public BuildStepMonitor getRequiredMonitorService() {
     return BuildStepMonitor.NONE;
   }
 
   @Override
-  public TestRunDescriptor getDescriptor()
-  {
+  public TestRunDescriptor getDescriptor() {
     return (TestRunDescriptor) super.getDescriptor();
   }
 
   @Override
-  public boolean needsToRunAfterFinalized()
-  {
+  public boolean needsToRunAfterFinalized() {
     return true;
   }
 }

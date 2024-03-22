@@ -14,7 +14,6 @@ import io.jenkins.plugins.rmsis.utils.Constants;
 import io.jenkins.plugins.rmsis.utils.RestClient;
 import io.jenkins.plugins.rmsis.utils.URLValidator;
 import io.jenkins.plugins.rmsis.utils.Util;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.QueryParameter;
@@ -24,7 +23,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
