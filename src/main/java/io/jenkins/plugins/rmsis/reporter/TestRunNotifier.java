@@ -111,8 +111,13 @@ public class TestRunNotifier extends Notifier {
     Map<String, Boolean> resultMap = new HashMap<>();
     for (SuiteResult suite : suites) {
       for (CaseResult caseResult : suite.getCases()) {
-        LOG.log(Level.INFO, "Test: " + caseResult.getName() + " - " + caseResult.isPassed());
-        resultMap.put(caseResult.getName(), caseResult.isPassed());
+        String testName = caseResult.getName();
+        if (!testName.startsWith(caseResult.getPackageName())) {
+          testName = caseResult.getFullDisplayName();
+        }
+        LOG.log(Level.INFO,
+            "Test: " + testName + " - " + caseResult.isPassed());
+        resultMap.put(testName, caseResult.isPassed());
       }
     }
 
